@@ -1,0 +1,66 @@
+{
+  "name": "underleaf",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.9.11",
+    "@material-ui/lab": "^4.0.0-alpha.50",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "ace-builds": "^1.4.12",
+    "babel-plugin-prismjs": "^2.0.1",
+    "bluebird": "^2.10.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "fs": "0.0.1-security",
+    "node-gyp": "^10.1.0",
+    "node-latex": "^3.0.0",
+    "node-sass": "^9.0.0",
+    "react": "^17.0.2",
+    "react-ace": "^9.4.0",
+    "react-copy-to-clipboard": "^5.0.3",
+    "react-dom": "^17.0.2",
+    "react-full-screen": "^0.3.1",
+    "react-icons": "^3.11.0",
+    "react-loader-spinner": "^4.0.0",
+    "react-pdf": "^5.2.0",
+    "react-router-dom": "^6.23.1",
+    "react-scripts": "4.0.3",
+    "react-split": "^2.0.7",
+    "react-use-clipboard": "1.0.7",
+    "styled-components": "^5.2.3",
+    "temp": "^0.9.4",
+    "web-vitals": "^1.0.1"
+  },
+  "scripts": {
+    "start": "set NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "proxy": "http://localhost:8080",
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+  }
+}
