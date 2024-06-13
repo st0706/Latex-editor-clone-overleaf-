@@ -19,6 +19,9 @@ const Homepage = () => {
             <Link to="/project" style={{ textDecoration: 'none' }}>
               <Button variant="contained" color="primary">New Project</Button>
             </Link>
+            <Button onClick={() => {
+              localStorage.removeItem('token');
+            }} variant="contained" color="primary">SignOut</Button>
           </Grid>
         </Grid>
       </Container>

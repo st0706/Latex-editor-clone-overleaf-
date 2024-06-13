@@ -1,3 +1,6 @@
+const { PrismaClient } = require("@prisma/client");
+const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const express = require("express");
 const parser = require("./parser/latex-log-parser");
 const fileupload = require("express-fileupload");
@@ -10,10 +13,26 @@ var cors = require("cors");
 var fs = require("fs");
 var path = require("path");
 var temp = require("temp");
-
+const bodyParser = require('body-parser');
+const prisma = new PrismaClient();
 app.use(cors());
 app.use(fileupload());
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "..", "build")));
+
+const { hash, compare } = bcryptjs;
+const SECRET_KEY = process.env.SECRET_KEY ;
+// Middleware 
+const authenticate = (req, res, next) => {
+  const token = req.header('Authorization').replace('Bearer ', '');
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+    req.userId = decoded.userId;
+    next();
+  } catch (error) {
+    res.status(401).json({ error: 'Please authenticate.' });
+  }
+};
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "build", "index.html"));
@@ -42,7 +61,7 @@ app.post("/upload", function (req, res) {
   pdf.on("finish", () => {});
 });
 
-app.post("/compile", function (req, res) {
+app.post("/compile",authenticate, function (req, res) {
   try {
     let buf = new Buffer.from(req.body.tex.toString("utf8"), "base64");
     var uid = "tempfile";
@@ -114,3 +133,63 @@ var removeDir = function (dirPath) {
   console.log("removing: " + dirPath);
   fs.rmdirSync(dirPath);
 };
+
+//Endpoint to register
+app.post('/register', async (req, res) => {
+  try {
+  const {name, email, password} = req.body;
+  const hashedPassword = await hash(password, 12);
+
+  const existingUser = await prisma.user.findUnique({where: {email}});
+  if (existingUser) {
+    return res.status(400).json({message: "This email is already in use"});
+  }
+  const newUser = await prisma.user.create({
+    data: {
+      name,
+      email,
+      password: hashedPassword
+    }
+  });
+  return res.status(200).json(newUser)
+} catch (error) {
+  console.error('Error:', error);
+  res.status(500).json({ error: 'An error occurred' });
+}
+})
+
+//endpoint to login
+app.post('/login', async (req, res) => {
+  try {
+      const { email, password } = req.body;
+      const user = await prisma.user.findUnique({ where: { email } });
+      if (!user) {
+          return res.status(400).json({ message: 'Invalid email or password' });
+      }
+      const isValidPassword = await compare(password, user.password);
+      if (!isValidPassword) {
+          return res.status(400).json({ message: 'Invalid email or password' });
+      }
+      const token = jwt.sign({ userId: user.id }, SECRET_KEY, { expiresIn: '1h' });
+      res.json({ token });
+  } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ error: 'An error occurred' });
+  }
+});
+
+app.get('/me', authenticate, async (req, res) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: req.userId },
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json({ id: user.id, email: user.email });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
