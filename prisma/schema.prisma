@@ -27,6 +27,6 @@ model Project {
   updatedAt DateTime @updatedAt
   title     String
   content   String?
-  userId    String   @unique
+  userId    String
   user      User     @relation(fields: [userId], references: [id])
 }

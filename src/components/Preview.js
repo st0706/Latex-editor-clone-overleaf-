@@ -3,7 +3,7 @@ import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { CgSoftwareDownload as SaveIcon } from "react-icons/cg";
 import { MdLoop as CompileIcon } from "react-icons/md";
 import { RiFullscreenFill as FullScreenIcon } from "react-icons/ri";
-import { Tooltip } from "@material-ui/core";
+import Tooltip from "@mui/material/Tooltip";
 import { Document, Page, pdfjs } from "react-pdf";
 import Loader from "react-loader-spinner";
 import styled from "styled-components";

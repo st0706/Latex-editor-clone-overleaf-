@@ -7,7 +7,7 @@ function NavBar() {
     <nav className="navbar">
       <h3 className="title">
       <Link to="/"><Logo /></Link>
-     &nbsp;OVERLEAF
+     &nbsp;OVERLEAF   
       </h3>
     </nav>
   );

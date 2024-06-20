@@ -1,17 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
-import Snackbar from "@material-ui/core/Snackbar";
-import { Alert, AlertTitle } from "@material-ui/lab";
 import { CgSoftwareDownload as SaveIcon } from "react-icons/cg";
 import { MdContentCopy as CopyIcon } from "react-icons/md";
 import { MdDelete as CleanIcon } from "react-icons/md";
 import placeholder from "./placeholder";
-import { Tooltip } from "@material-ui/core";
 import AceEditor from "react-ace";
 import "ace-builds/webpack-resolver";
 import useClipboard from "react-use-clipboard";
 import "ace-builds/src-noconflict/mode-latex";
 import "ace-builds/src-noconflict/snippets/latex";
 import "ace-builds/src-noconflict/ext-language_tools";
+import Tooltip from "@mui/material/Tooltip";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 
 function Editor({ content, changeContent, isCompiled, compiled }) {
   const [open, setOpen] = useState(false);
