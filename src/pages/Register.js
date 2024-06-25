@@ -1,19 +1,19 @@
-import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from 'axios';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+import * as React from "react";
+import { useNavigate } from "react-router-dom";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 const defaultTheme = createTheme();
 
@@ -21,8 +21,8 @@ export default function SignUp() {
   const navigate = useNavigate();
   const [agree, setAgree] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  const [severity, setSeverity] = React.useState('success');
-  const [message, setMessage] = React.useState('');
+  const [severity, setSeverity] = React.useState("success");
+  const [message, setMessage] = React.useState("");
 
   const handleCheckboxChange = (event) => {
     setAgree(event.target.checked);
@@ -34,30 +34,29 @@ export default function SignUp() {
     const data = new FormData(event.currentTarget);
     const userData = {
       name: `${data.get("firstName")} ${data.get("lastName")}`,
-      email: data.get('email'),
-      password: data.get('password' ),
+      email: data.get("email"),
+      password: data.get("password"),
     };
-      try {
+    try {
       await axios.post("http://localhost:8080/register", userData);
-      setMessage('Register new user successfully!');
-      setSeverity('success');
+      setMessage("Register new user successfully!");
+      setSeverity("success");
       setTimeout(() => {
         navigate("/login");
       }, 2000);
-      } catch (error) {
-        if(error.response && error.response.data) {
-          setMessage(error.response.data.message);
-          }
-        else {
-            setMessage('An error occurred. Please try again.');
-          }
-        setSeverity('error');
+    } catch (error) {
+      if (error.response && error.response.data) {
+        setMessage(error.response.data.message);
+      } else {
+        setMessage("An error occurred. Please try again.");
       }
-      setOpen(true);
+      setSeverity("error");
+    }
+    setOpen(true);
   };
-    
+
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setOpen(false);
@@ -70,18 +69,27 @@ export default function SignUp() {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Link href="/" >
-            <img width="130px" src="https://cdn.overleaf.com/img/ol-brand/overleaf-green.svg" alt='overleaf' />
-            </Link>
-            <Typography mt={5} component="h1" variant="h5" >
+          <Link href="/">
+            <img
+              width="130px"
+              src="https://cdn.overleaf.com/img/ol-brand/overleaf-green.svg"
+              alt="overleaf"
+            />
+          </Link>
+          <Typography mt={5} component="h1" variant="h5">
             Register for Overleaf
-            </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          </Typography>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 3 }}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -127,7 +135,13 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox onChange={handleCheckboxChange} value="allowExtraEmails" color="primary" />}
+                  control={
+                    <Checkbox
+                      onChange={handleCheckboxChange}
+                      value="allowExtraEmails"
+                      color="primary"
+                    />
+                  }
                   label="I Agree to the Terms and Conditions"
                 />
               </Grid>
@@ -141,15 +155,24 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
-            <Typography variant="body2" color="text.secondary" align="center" >
-                <Link underline="hover" href="/login" variant="body2">
-                    {"Already have an account? Sign in"}
-                </Link>
+            <Typography variant="body2" color="text.secondary" align="center">
+              <Link underline="hover" href="/login" variant="body2">
+                {"Already have an account? Sign in"}
+              </Link>
             </Typography>
           </Box>
         </Box>
-        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+        <Snackbar
+          anchorOrigin={{ horizontal: "center", vertical: "top" }}
+          open={open}
+          autoHideDuration={3000}
+          onClose={handleClose}
+        >
+          <Alert
+            onClose={handleClose}
+            severity={severity}
+            sx={{ width: "100%" }}
+          >
             {message}
           </Alert>
         </Snackbar>

@@ -220,7 +220,14 @@ app.post("/projects", authenticate, async (req, res) => {
 // Read all projects
 app.get("/projects", authenticate, async (req, res) => {
   try {
-    const projects = await prisma.project.findMany();
+    const projects = await prisma.project.findMany({
+      select: {
+        id: true,
+        title: true,
+        updatedAt: true,
+        userId: true,
+      },
+    });
     res.json(projects);
   } catch (error) {
     res.status(400).json({ error: error.message });

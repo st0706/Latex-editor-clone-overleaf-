@@ -124,7 +124,12 @@ export default function Login() {
             </Typography>
           </Box>
         </Box>
-        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Snackbar
+          anchorOrigin={{ horizontal: "center", vertical: "top" }}
+          open={open}
+          autoHideDuration={3000}
+          onClose={handleClose}
+        >
           <Alert
             onClose={handleClose}
             severity={severity}

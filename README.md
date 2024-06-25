@@ -9,6 +9,6 @@ $ yarn install
 ```bash
 # In separate terminals
 
-$ yarn start
-$ node server/server.js
+$ yarn client
+$ yarn server
 ```

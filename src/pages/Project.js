@@ -6,17 +6,15 @@ import api from "../api";
 
 function App() {
   const { id } = useParams();
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [updatedAt, setUpdatedAt] = useState("");
+  const [title, setTitle] = useState();
+  const [content, setContent] = useState();
 
   const fetchProjectData = async () => {
     try {
       const response = await api.get(`http://localhost:8080/projects/${id}`);
       const data = await response.data;
       setTitle(data.title);
-      setAuthor(data.author);
-      setUpdatedAt(data.updatedAt);
+      setContent(data.content);
     } catch (error) {
       console.error("Error fetching project data:", error);
     }
@@ -26,10 +24,18 @@ function App() {
     fetchProjectData();
   }, []);
 
+  const handleDataFromWorkArea = (data) => {
+    setContent(data);
+  };
+
   return (
     <div>
-      <NavBar />
-      <WorkArea />
+      {id && title && content && (
+        <NavBar id={id} title={title} content={content} />
+      )}
+      {content && (
+        <WorkArea onData={handleDataFromWorkArea} content={content} />
+      )}
     </div>
   );
 }
